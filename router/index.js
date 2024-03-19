@@ -35,6 +35,8 @@ router.post('/register', async (req, res) => {
     let errorMessage='';
     try {
         const { email, password } = req.body;
+        const {password2} = req.body;
+        if(password === password2){
 
         // Crea el usuario en Firebase Authentication
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
@@ -42,12 +44,10 @@ router.post('/register', async (req, res) => {
         // Obtiene el ID de usuario asignado por Firebase
         const userId = userCredential.user.uid;
 
-        // Opcional: también puedes guardar más información del usuario en Firestore
         const userData = {
             nombre: req.body.nombre,
             email: req.body.email,
             password: req.body.password
-            // Puedes agregar más campos aquí según tus necesidades
         };
 
         // Guarda la información del usuario en Firestore
@@ -55,7 +55,11 @@ router.post('/register', async (req, res) => {
 
         // Redirige o renderiza una vista según tus necesidades
         res.redirect('/login-success');
+    } else {
+        throw new Error('Las contraseñas no coinciden. Por favor, inténtalo de nuevo.');
+    }
     } catch (error) {
+        errorMessage=error;
         console.error('Error al registrar el usuario:', error);
         if (error.code === 'auth/email-already-in-use') {
             errorMessage = 'El correo electrónico ya está en uso. Por favor, utiliza otro.';
@@ -65,7 +69,7 @@ router.post('/register', async (req, res) => {
             errorMessage = 'El formato del correo electrónico no es válido. Por favor, verifica tu correo electrónico.';
         }
         res.render('register', { errorMessage });  
-    }// Termina la ejecución del controlador después de renderizar la vista  }
+    }
 });
 
 router.get('/login', (req, res) => {
@@ -100,13 +104,11 @@ router.post('/login', async (req, res) => {
 });
 
 router.get('/login-success', (req, res) => {
-    // Renderiza la página 'index' con el mensaje de sesión exitosa
     res.render('login-success');
 });
 
 
 router.get('/index', (req, res) => {
-    // Renderiza la página 'index' con el mensaje de sesión exitosa
     res.render('index');
 });
 export default router;
