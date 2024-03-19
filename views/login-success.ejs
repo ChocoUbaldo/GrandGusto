@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+</head>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+<style>
+    body{
+    background: rgb(247,214,151);
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    }
+
+</style>
+<body>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Muestra la alerta utilizando SweetAlert
+            Swal.fire({
+                icon: 'success',
+                title: 'Inicio de sesión exitoso',
+                showConfirmButton: false,
+                timer: 3000,
+                didOpen: () => {
+                Swal.showLoading();
+                const timer = Swal.getPopup().querySelector("b");
+                     timerInterval = setInterval(() => {
+                     timer.textContent = `${Swal.getTimerLeft()}`;
+            }, 100);
+            },
+        willClose: () => {
+            clearInterval(timerInterval);
+        }
+        }).then((result) => {
+        /* Read more about handling dismissals below */
+        if (result.dismiss === Swal.DismissReason.timer) {
+            console.log("I was closed by the timer");
+        } // La alerta se cerrará automáticamente después de 2 segundos
+        }).then(() => {
+                // Redirige al usuario a la página index después de que la alerta se cierre
+                window.location.href = '/index';
+        });
+        });
+    </script>
+</body>
+</html>

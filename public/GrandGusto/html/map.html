@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapa Interactivo</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+    <link rel="stylesheet" href="/GrandGusto/css/mapa.css">
+</head>
+<body>
+    <!-- Formulario para ingresar la dirección -->
+    <form>
+        <label for="startLocation">Ubicación de inicio:</label>
+        <input type="text" id="startLocation" name="startLocation">
+        <button type="button" id="generateRouteBtn">Generar Ruta</button>
+        <button type="button" id="btnVoz">Comando por voz</button>
+    </form>
+
+    <div class="container-map">
+        <div id="map"></div>
+    </div>
+
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+    <script src="/GrandGusto/js/app.js"></script>
+</body>
+</html>

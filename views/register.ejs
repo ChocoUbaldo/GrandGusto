@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="/GrandGusto/css/login.css">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+    <script>
+        function showAlert(errorMessage) {
+            if (errorMessage) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: errorMessage,
+                    footer: '<a href="#">Necesitas ayuda con el problema?</a>'
+            });
+        }
+        }
+    </script>
+    <title>GrandGusto Login</title>
+</head>
+<body>
+
+    <div class="home">
+        <span class="icon">
+            <svg xmlns="http://www.w3.org/2000/svg" height="32" width="20" viewBox="0 0 320 512">
+                <path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256 246.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z"/>
+            </svg>
+        </div>
+
+        <div class="container" id="container">
+            <div class="form-container sign-up">
+                <form id="regis" action="/register" method="post">
+                    <h1>Crear Cuenta</h1>
+                    <div class="social-icons">
+                        <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
+                        <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
+                        <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
+                    </div>
+                    <span>o usa tu email para registrarte</span>
+                    <input id="nombre" type="text" name="nombre" placeholder="Nombre" required>
+                    <input id="email" type="email" name="email" placeholder="Email" required>
+                    <input id="password" type="password" name="password" placeholder="Contraseña" required>
+                    <button id="regis" type="submit">Regístrate</button>
+                    <% if(errorMessage) { %>
+                        <script>
+                            showAlert("<%= errorMessage %>");
+                        </script>
+                    <% } %>
+                </form>
+            </div>
+
+            
+            <div class="toggle-container">
+                <div class="toggle">
+                    <div class="toggle-panel toggle-left">
+                        <h1>Bienvenido de Vuelta!</h1>
+                        <p>Introduzca sus datos personales para utilizar todas las funciones del sitio web</p>
+                        <button class="hidden"><a id="login" href="/" style="text-decoration: none;">Iniciar Sesión</a></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+       <script>
+            const container = document.getElementById('container');
+            container.classList.add("active");
+            const login = document.getElementById('login');
+            login.addEventListener('click', ()=>{
+                container.classList.remove("active");
+            });
+        </script>
+    </body>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</html>
