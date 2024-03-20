@@ -231,3 +231,20 @@ body .home {
  #login:hover {
     color: white; 
 }
+
+#register a {
+    color: black; 
+}
+
+ #register a:hover {
+    color: white; 
+}
+
+a {
+    font-weight:500;
+    color: black; 
+}
+
+a:hover {
+    color: white; 
+}

@@ -1,9 +1,8 @@
 import express from "express";
 const router = express.Router();
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, addDoc } from "firebase/firestore";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
-import Swal from 'sweetalert2';
+import { getFirestore, collection, addDoc, query, where, getDocs } from "firebase/firestore";
+import { getAuth, sendPasswordResetEmail, createUserWithEmailAndPassword, signInWithEmailAndPassword  } from "firebase/auth";
 
 
 // Configura tu aplicación Firebase
@@ -107,8 +106,36 @@ router.get('/login-success', (req, res) => {
     res.render('login-success');
 });
 
+router.get('/forgot-password', (req, res) => {
+    let errorMessage, Message;
+    res.render('forgot-password', {errorMessage, Message});
+});
+
+router.post('/forgot-password', async (req, res) => {
+    const { recuemail } = req.body;
+    try {
+        const usersRef = collection(db, 'usuarios');
+        const q = query(usersRef, where('email', '==', recuemail));
+        const querySnapshot = await getDocs(q);
+        
+        if (querySnapshot.empty) {
+            throw new Error('Email no encontrado');
+        }
+        await sendPasswordResetEmail(auth, recuemail);
+
+        res.render('forgot-password', {errorMessage : null, Message : 'Presione para volver'} );
+    } catch (error) {
+        let errorMessage=error;
+        if (error.code === 'auth/missing-email'){
+            errorMessage= 'Por favor, Ingrese su correo' 
+        }     
+        res.render('forgot-password', { errorMessage, Message : null}); }
+});
+
 
 router.get('/index', (req, res) => {
     res.render('index');
 });
+
+
 export default router;

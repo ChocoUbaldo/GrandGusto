@@ -4,11 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link rel="stylesheet" href="GrandGusto/css/login.css">
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+    <%-include('partials/sweetalert2.ejs')%>
     <script>
     function showAlert(errorMessage) {
         if (errorMessage) {
@@ -46,7 +43,7 @@
                 <span>o usa la contraseña de tu email</span>
                 <input id="loginemail" type="email" name="loginemail" placeholder="Email" required>
                 <input id="loginpassword" type="password" name="loginpassword" placeholder="Contraseña" required>
-                <a href="#">Olvidaste tu Contraseña?</a>
+                <a href="/forgot-password" style="hover{color:white}">Olvidaste tu Contraseña?</a>
                 <button id="logses" type="submit" onclick="showAlert()">Iniciar Sesión</button>
                 <% if(errorMessage) { %>
                     <script>
@@ -61,12 +58,10 @@
                 <div class="toggle-panel toggle-right">
                     <h1>Bienvenido a GrandGusto!</h1>
                     <p>Regístrese con sus datos personales para utilizar todas las funciones del sitio web</p>
-                    <button class="hidden" id="register"><a href="/register" style="text-decoration: none; hover{color:white}">Registrarse</a></button>
+                    <button class="hidden" id="register"><a href="/register" >Registrarse</a></button>
                 </div>
             </div>
         </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
+ </body>
 </html>
