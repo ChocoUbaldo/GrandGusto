@@ -35,13 +35,13 @@ router.post('/register', async (req, res) => {
     try {
         const { email, password } = req.body;
         const {password2} = req.body;
+        
         if(password === password2){
 
         // Crea el usuario en Firebase Authentication
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
 
-        // Obtiene el ID de usuario asignado por Firebase
-        const userId = userCredential.user.uid;
+        const userId = userCredential.user.uid;//NO SE USA
 
         const userData = {
             nombre: req.body.nombre,
@@ -52,7 +52,6 @@ router.post('/register', async (req, res) => {
         // Guarda la información del usuario en Firestore
         await addDoc(collection(db, 'usuarios'), userData);
 
-        // Redirige o renderiza una vista según tus necesidades
         res.redirect('/login-success');
     } else {
         throw new Error('Las contraseñas no coinciden. Por favor, inténtalo de nuevo.');

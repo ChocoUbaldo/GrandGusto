@@ -216,35 +216,46 @@ body .home {
 }
 
 #register a {
-    color: black; 
+    color: white; 
 }
 
  #register a:hover {
     color: white; 
+    background-color: darken(#905835, 5);
 }
 
 
 #login{
-    color: black; 
+    color: white; 
 }
 
  #login:hover {
     color: white; 
+    background-color: darken(#905835, 5);
 }
 
 #register a {
-    color: black; 
+    color: white; 
+    
 }
 
  #register a:hover {
     color: white; 
+    background-color: darken(#905835, 5);
+
 }
 
 a {
     font-weight:500;
-    color: black; 
+    color: white; 
 }
 
 a:hover {
     color: white; 
+    background-color: darken(#905835, 5);
+
+}
+
+button a {
+    color: #fff;
 }
