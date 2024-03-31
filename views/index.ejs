@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/GrandGusto/css/index.css">
+    <link rel="stylesheet" href="/css/index.css">
     <title>GrandGusto</title>
 </head>
 <body>
@@ -41,16 +41,16 @@
     <div class="body2">
         <div class="carrusel">
             <div class="atras">
-                <img id="atras" src="/GrandGusto/img/atras.svg" alt="atras" loading="lazy">
+                <img id="atras" src="/img/atras.svg" alt="atras" loading="lazy">
             </div>
             <div class="imagenes">
                 <div id="img">
-                    <img class="img" src="/GrandGusto/img/img1.jpg" alt="imagen 1" loading="lazy">
+                    <img class="img" src="/img/img1.jpg" alt="imagen 1" loading="lazy">
                 </div>
             </div>
 
             <div class="adelante" id="adelante">
-                <img src="/GrandGusto/img/adelante.svg" alt="adelante" loading="lazy">
+                <img src="/img/adelante.svg" alt="adelante" loading="lazy">
             </div>
         </div>
 
@@ -59,15 +59,15 @@
 
     <div class="container-cards">
         <div class="cards">
-            <img class="imgss" src="/GrandGusto/img/ali.JPG" alt="">
+            <img class="imgss" src="/img/ali.JPG" alt="">
         </div>
 
         <div class="cards">
-            <img class="imgss" src="/GrandGusto/img/bebi.JPG" alt="">
+            <img class="imgss" src="/img/bebi.JPG" alt="">
         </div>
 
         <div class="cards">
-            <img class="imgss" src="/GrandGusto/img/pos.JPG" alt="">
+            <img class="imgss" src="/img/pos.JPG" alt="">
         </div>
     </div>
 
@@ -102,81 +102,6 @@
     </div>
 
 </body>
-<script>
-    let imagenes = [
-    {
-        "url": "/img/img1.jpg",
-    },
-    {
-        "url": "/img/img2.jpg",    
-    },
-    {
-        "url": "/img/img3.jpg",
-
-    },
-]
-
-
-let atras = document.getElementById('atras');
-let adelante = document.getElementById('adelante');
-let imagen = document.getElementById('img');
-let puntos = document.getElementById('puntos');
-let texto = document.getElementById('texto')
-let actual = 0
-posicionCarrusel()
-
-atras.addEventListener('click', function(){
-    actual -=1
-
-    if (actual == -1){
-        actual = imagenes.length - 1
-    }
-
-    imagen.innerHTML = ` <img class="img" src="${imagenes[actual].url}" alt="logo pagina" loading="lazy"></img>`
-    texto.innerHTML = `
-    <h3>${imagenes[actual].nombre}</h3>
-    <p>${imagenes[actual].descripcion}</p>
-    `
-    posicionCarrusel()
-})  
-adelante.addEventListener('click', function(){
-    actual +=1
-
-    if (actual == imagenes.length){
-        actual = 0
-    }
-
-    imagen.innerHTML = ` <img class="img" src="${imagenes[actual].url}" alt="logo pagina" loading="lazy"></img>`
-    texto.innerHTML = `
-    <h3>${imagenes[actual].nombre}</h3>
-    <p>${imagenes[actual].descripcion}</p>
-    `
-    posicionCarrusel()
-})  
-
-function posicionCarrusel() {
-    puntos.innerHTML = ""
-    for (var i = 0; i <imagenes.length; i++){
-        if(i == actual){
-            puntos.innerHTML += '<p class="bold">.<p>'
-        }
-        else{
-            puntos.innerHTML += '<p>.<p>'
-        }
-    } 
-}
-
-function redirectToApi() {
-    window.location.href = '/GrandGusto/html/map.html';
-  }
-
-const userBtn = document.querySelector('.user');
-
-userBtn.addEventListener( 'click' , ()=>{
-    window.location.href = 'login';
-});
-
-
-</script>
+<script src="/js/index.js"></script>
 
 </html>

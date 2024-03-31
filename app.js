@@ -11,7 +11,7 @@ const __dirname = path.dirname(__filename);
 const main = express();
 
 main.set("view engine", "ejs");
-main.use(express.static(path.join(__dirname, 'public')));
+main.use(express.static(path.join(__dirname, 'static')));
 main.use(json.urlencoded({ extended: true }));
 main.use(misRutas); // Cambiado de misRutas.router a misRutas
 

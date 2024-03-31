@@ -62,12 +62,12 @@ function posicionCarrusel() {
 }
 
 function redirectToApi() {
-    window.location.href = '/html/map.html';
+    window.location.href = '/GrandGusto/html/map.html';
   }
 
 const userBtn = document.querySelector('.user');
 
 userBtn.addEventListener( 'click' , ()=>{
-    window.location.href = '/html/login.html';
+    window.location.href = 'login';
 });
 

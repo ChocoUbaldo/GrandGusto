@@ -2,9 +2,7 @@ import express from "express";
 const router = express.Router();
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection, addDoc, query, where, getDocs } from "firebase/firestore";
-import { getAuth, sendPasswordResetEmail, createUserWithEmailAndPassword, signInWithEmailAndPassword  } from "firebase/auth";
-
-
+import { getAuth, sendPasswordResetEmail, createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup} from "firebase/auth";
 // Configura tu aplicación Firebase
 const firebaseConfig = {
     apiKey: "AIzaSyDVrFMPzj5uCYazmPfaMGUGLXlKbVNjT2U",
@@ -70,18 +68,23 @@ router.post('/register', async (req, res) => {
     }
 });
 
+
 router.get('/login', (req, res) => {
     let errorMessage='';
-    res.render('login', {errorMessage}); // Renderiza la vista del formulario de inicio de sesión
+    res.render('login', { errorMessage}); // Renderiza la vista del formulario de inicio de sesión
 });
 
+
 router.post('/login', async (req, res) => {
+    
     let errorMessage = '';
+
     try {
         const { loginemail, loginpassword } = req.body;
         
         await signInWithEmailAndPassword(auth, loginemail, loginpassword);
         res.redirect('/login-success');
+    
 } catch (error) {
         console.error('Error al iniciar sesión:', error);
         if (error.code === 'auth/wrong-password' || error.code === 'auth/invalid-credential') {
