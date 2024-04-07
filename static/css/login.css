@@ -155,6 +155,41 @@ body{
     z-index: 1000;
 }
 
+@media ( min-width: 500px ) {
+    .already-have-account {
+        display: none; 
+    }
+}
+
+@media ( max-width: 500px ) {
+    .toggle-container{
+        position: unset;
+     }
+    .sign-in{
+        width: 100%;
+    }
+    .already-have-account {
+        display: block; 
+        width: 100%;
+        color: #333; 
+        text-align: center;
+        padding: 10px 0; 
+        font-size: 14px;
+        box-sizing: border-box;      
+    }
+    .no-account:hover{
+        color:white;
+    }
+    .already-have-account a{
+        text-decoration: underline;
+        box-sizing: border-box;     
+        color: #b87326d6; 
+        
+    }
+}
+
+
+
 .container.active .toggle-container{
     transform: translateX(-100%);
     border-radius: 0 150px 100px 0;
@@ -262,3 +297,4 @@ a:hover {
 button a {
     color: #fff;
 }
+

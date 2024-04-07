@@ -3,6 +3,7 @@ const router = express.Router();
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection, addDoc, query, where, getDocs } from "firebase/firestore";
 import { getAuth, sendPasswordResetEmail, createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup} from "firebase/auth";
+import Swal from 'sweetalert2';
 // Configura tu aplicación Firebase
 const firebaseConfig = {
     apiKey: "AIzaSyDVrFMPzj5uCYazmPfaMGUGLXlKbVNjT2U",
@@ -50,7 +51,7 @@ router.post('/register', async (req, res) => {
         // Guarda la información del usuario en Firestore
         await addDoc(collection(db, 'usuarios'), userData);
 
-        res.redirect('/login-success');
+        res.redirect('/login-sucess');
     } else {
         throw new Error('Las contraseñas no coinciden. Por favor, inténtalo de nuevo.');
     }
@@ -83,7 +84,11 @@ router.post('/login', async (req, res) => {
         const { loginemail, loginpassword } = req.body;
         
         await signInWithEmailAndPassword(auth, loginemail, loginpassword);
-        res.redirect('/login-success');
+        if(loginemail==='admin@gmail.com'){
+            res.redirect('/sucess-admin');
+        }else{
+            res.redirect('/login-success');
+        }
     
 } catch (error) {
         console.error('Error al iniciar sesión:', error);
@@ -135,9 +140,18 @@ router.post('/forgot-password', async (req, res) => {
 });
 
 
-router.get('/index', (req, res) => {
-    res.render('index');
-});
+router.get('/index', (req, res) => {res.render('index')});
 
+router.get('/administracion', async (req, res) => {res.render('administracion')});
+
+router.get('/add-inventory', async (req, res) => {res.render('add-inventory')});
+
+router.get('/alimentos', async (req, res) => {res.render('alimentos')});
+
+router.get('/postres', async (req, res) => {res.render('postres') });
+
+router.get('/seal', async (req, res) => {res.render('seal')  });
+
+router.get('/sucess-admin', async (req, res) => {res.render('sucess-admin')  });
 
 export default router;

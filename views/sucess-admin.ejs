@@ -15,7 +15,7 @@
             // Muestra la alerta utilizando SweetAlert
             Swal.fire({
                 icon: 'success',
-                title: 'Inicio de sesión exitoso',
+                title: 'Redirigiendo al administrador',
                 showConfirmButton: false,
                 timer: 3000,
                 didOpen: () => {
@@ -34,8 +34,7 @@
             console.log("I was closed by the timer");
         } // La alerta se cerrará automáticamente después de 2 segundos
         }).then(() => {
-
-            window.location.href = '/index';
+            window.location.href = '/administracion';
         });
         });
     </script>

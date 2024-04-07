@@ -37,14 +37,17 @@
                 <h1>Iniciar Sesion</h1>
                 <div class="social-icons">
                     <a id="loginicon" href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
-                    <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
-                    <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
+                    <a id="login-faceook" href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a id="login-github" href="#" class="icon"><i class="fa-brands fa-github"></i></a>
                     <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
                 </div>
                 <span>o usa la contraseña de tu email</span>
                 <input id="loginemail" type="email" name="loginemail" placeholder="Email" required onkeypress="preventSpaces(event)">
                 <input id="loginpassword" type="password" name="loginpassword" placeholder="Contraseña" required onkeypress="preventSpaces(event)">
                 <a href="/forgot-password" style="hover{color:white}">Olvidaste tu Contraseña?</a>
+                <div class="already-have-account">No tienes cuenta?
+                    <a class="no-account" href="/register">Crear Una</a>
+                </div>
                 <button id="logses" type="submit" onclick="showAlert()">Iniciar Sesión</button>
                 <% if(errorMessage) { %>
                     <script>
