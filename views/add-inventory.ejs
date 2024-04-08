@@ -14,65 +14,96 @@
             <ion-icon name="menu-outline"></ion-icon>
         </div>
 
+        <div class="font-weight">
+            <h2>Inventario</h2>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAAXNSR0IArs4c6QAAATFJREFUSEvtluENgjAQhe9wEOsmSBykTqJMYgcxyCYW97CnbU2EqnC1GGL0fsLlvr7jAQ9hosKJuMAGy0Js3SEzqNVe1+0Dy5XIwUBur6lK+76BigDPyc/CMhzuD0UbD25YM1lNdqAsPgyWuRCQmQ0AyqF1Me5rAKrBZKWqtW73PyiWxfx43ZhgDI1p0apqFi/B3iR0iJnI7s1w2TZlR3EA1kDQWQ8b0pXm3A5scND4DrQj5GvAzuVIuyjFMyzt80xS/JbhbmtNB5/9V4ldhGv73iaB2bAnjd8J7jOXOjTLvo0kKe4z19CfKB38wlwfVfx75vorjtlAkqtjQGEvH+zyFtnoM34ZXLRz15PMdY+q49FJqeq07g179qZPmi6gp4c+AypMmJbBztXjqfeTJgNfAI3tWC6ad7HIAAAAAElFTkSuQmCC"/>
+        </div>
+
         <div class="user">
             <img src="/img/image.png" alt="">
         </div>
     </div>
 
+
     <div class="content">
-        <h2>Inventario</h2>
-    <form id="subirinv">
+    <form id="form-action">
+    <div>
         <label for="codigo">Codigo:</label>
         <input type="text" id="codigo" required placeholder="Codigo de barras">
+    </div>
+    <div>
         <label for="producto">Producto:</label>
         <input type="text" id="producto" name="producto" required placeholder="Nombre">
+    </div>
+    <div>
         <label for="descripcion">Descripcion:</label>
         <input type="text" id="descripcion" name="descripcion" required placeholder="Paquete o Unidad">
+    </div>
+    <div>
         <label for="entrada">Stock Inicial:</label>
-        <input type="number" id="entrada" name="entrada" placeholder="0" required>
+        <input type="number" id="entrada" name="entrada" placeholder="Cantidad Inicial" required>
+    </div>
+    <div>
         <label for="salida">Salida:</label>
-        <input type="number" id="salida" name="salida" placeholder="0" required>     
+        <input type="number" id="salida" name="salida" placeholder="Salida" required>     
+    </div>
+    <div>
         <label for="cantidadStock">Total:</label>
-        <input type="number" id="cantidadStock" name="cantidadStock" disabled required>
-       <button type="submit">
-            <span class="icon">
-                <ion-icon name="add-circle-outline" class="custom-icon"></ion-icon>
-            </span>
-            <span class="title">Agregar</span>
-        </button>
-        <box-icon name='edit'></box-icon>
+        <input type="number" id="cantidadStock" name="cantidadStock" placeholder="Cantidad en Stock" disabled required>
+    </div>
+    <div>
+        <button id="subir" style="width: 100px;">Agregar</button>
+    </div>
     </form>
     </div>
 
     <div id="formulario-edicion">
         <h2>Editar Producto</h2>
         <form id="form-edit">
+        <div>
             <label for="codigoedit">Codigo:</label>
             <input type="text" id="codigoedit" disabled>
+        </div>
+
+        <div>
             <label for="productoedit">Producto:</label>
             <input type="text" id="productoedit" required>
+        </div>
+
+        <div>
             <label for="descripcionedit">Descripcion:</label>
             <input type="text" id="descripcionedit" required>
+        </div>
+
+        <div>
             <label for="entradaedit">Entrada:</label>
             <input type="text" id="entradaedit" required>
+        </div>
+
+        <div>
             <label for="salidaedit">Salida:</label>
             <input type="text" id="salidaedit" required>
+        </div>
+
+        <div>
             <label for="cantidadStockedit">Cantidad en Stock:</label>
             <input type="number" id="cantidadStockedit" disabled required>
+        </div>
             <button type="submit">Guardar</button>
+            <button type="reset" class="none">Cancelar</button>
         </form>
-        <button class="none">Cancelar</button>
     </div>
-
-    <h2>Productos Agregados</h2>
     
-    <div class="search">
+    <div class="search">     
+    <h2 style="margin: 10px;">Productos Agregados</h2>
         <label>
             <input id="searchInput" type="text" placeholder="Busqueda por nombre">
             <ion-icon name="search-outline"></ion-icon>
         </label>
     </div>
-    <table id="tabla-productos">
+
+    <div class="table-container">
+    <table id="product-table">
         <thead>
             <tr>
                 <th>Codigo</th>
@@ -81,260 +112,17 @@
                 <th>Stock Inicial</th>
                 <th>Salida</th>
                 <th>Total</th>
+                <th>Editar</th>
+                <th>Eliminar</th>
             </tr>
         </thead>
-        <tbody id="tabla-cuerpo">
-            <!-- Aquí se llenarán las filas de la tabla dinámicamente -->
-        </tbody>
+        <tbody id="product-list"></tbody>
     </table>
-</div>
+    </div>
 
 </div>
-
-
-
 
 </body>
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-app.js";
-import { getFirestore, collection, addDoc, getDocs , deleteDoc, doc, setDoc, getDoc, query, where, updateDoc  } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-storage.js";
-
-document.addEventListener("DOMContentLoaded", async function() {
-const firebaseConfig = {
-    apiKey: "AIzaSyDVrFMPzj5uCYazmPfaMGUGLXlKbVNjT2U",
-    authDomain: "grandgusto-bf307.firebaseapp.com",
-    projectId: "grandgusto-bf307",
-    storageBucket: "grandgusto-bf307.appspot.com",
-    messagingSenderId: "894104978355",
-    appId: "1:894104978355:web:b1ea9ff6fa551f627d41c6"
-  };
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-const storage = getStorage(app);
-
-const formaction = document.querySelector('#subirinv');
-const formularioEdicion = document.querySelector('#formulario-edicion');
-const tablaCuerpo = document.querySelector('#tabla-cuerpo');
-
-
-const entrada =  document.querySelector('#entrada');
-const salida = document.querySelector('#salida');
-const cantidadStock = document.getElementById('cantidadStock');
-const entradaedit = document.querySelector('#entradaedit');
-const salidaedit = document.querySelector('#salidaedit');
-const cantidadStockedit = document.getElementById('cantidadStockedit');
-
-function actualizarCantidadStock(entradaElement, salidaElement, cantidadStockElement) {
-    const entradaValor = parseInt(entradaElement.value) || 0;
-    const salidaValor = parseInt(salidaElement.value) || 0;
-    const cantidadStockResult = Math.max(0, entradaValor - salidaValor);
-    cantidadStockElement.value = cantidadStockResult;
-}
-
-entrada.addEventListener('input', () => actualizarCantidadStock(entrada, salida, cantidadStock));
-salida.addEventListener('input', () => actualizarCantidadStock(entrada, salida, cantidadStock));
-entradaedit.addEventListener('input', () => actualizarCantidadStock(entradaedit, salidaedit, cantidadStockedit));
-salidaedit.addEventListener('input', () => actualizarCantidadStock(entradaedit, salidaedit, cantidadStockedit));
-
-const bebidasRef = collection(db, "inventario");
-let bebidasSnapshot = await getDocs(bebidasRef);
-formaction.addEventListener('submit', async (event) => {
-    event.preventDefault();
-
-    const codigo = document.querySelector('#codigo').value;
-    const producto = document.getElementById('producto').value;
-   const descripcion = document.querySelector('#descripcion').value;
-   
-    let productoExistente = false;
-    let nuevoproducto;
-
-    bebidasSnapshot.forEach(doc => {
-        if (doc.data().nombre === producto || doc.data().codigo === codigo) {
-            productoExistente = true;
-            alert("¡El producto ya existe en la base de datos!");
-            return;
-        }
-    });
-    
-    if (!productoExistente) {
-
-        const productData = {
-            codigo: codigo,
-            producto: producto,
-            descripcion: descripcion,
-            entrada: parseInt(entrada.value),
-            salida: parseInt(salida.value),
-            cantidadStock: parseInt(cantidadStock.value)
-        };
-
-       
-        try {
-            await addDoc(collection(db, "inventario"), productData);
-            alert("¡Producto registrado exitosamente!");
-           
-            document.getElementById('subirinv').reset();
-            location.reload();
-        } catch (error) {
-            console.error("Error al agregar producto a Firestore:", error);
-            alert("Hubo un error al agregar el producto. Por favor, inténtalo de nuevo.");
-        }
-    }
-});
-
-function crearFilaTabla(doc) {
-    const codigo = doc.data().codigo;
-    const producto = doc.data().producto;
-    const cantidadStock = doc.data().cantidadStock;
-    const descripcion = doc.data().descripcion;
-    const entrada = doc.data().entrada;
-    const salida = doc.data().salida;
-
-    const fila = document.createElement('tr');
-    fila.innerHTML = `
-        <td>${codigo}</td>
-        <td>${producto}</td>
-        <td>${descripcion}</td>
-        <td>${entrada}</td>
-        <td>${salida}</td>
-        <td>${cantidadStock}</td>
-        <td><img class='edit' src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAAXNSR0IArs4c6QAAAaxJREFUSEvN1+txgkAQAODdq4R0INiAVhIZJnVE68gQTCXSgGAHUkjmNrPgmuN4eCc46l8XPvbhsSI86YNPcuG14EVWBkrrDQG+I1Culdqd4rCS6iy+ypVrpU4fYd4X28mYUdR0toIrUrgWfJGWGwTKHPEKgX6KZLk14ztwmBZ0DUDIgUCym4SXSfQ2CEfpMSPADQcg0L5IlnGUHrcE+Hm5qI1nZQC/EAxmriCQypDGtVn2Vsbhd3G4ZFiZTximBZdegBY+Vm6eBVR04JhR2OwdAu24L2YVDMQJd4ebweInbLKzeswTLq0AgJu4M8zWZar/8SbNijTG3KOxnttl94L7cBk0ubEr7g0P4HXPfXBnmAOV0isB7LLLwLniXjCPvwlMwb1h+3d3Lz4Z9u25HBazwLfwPmQ2eAjXWuU8lHKmz57x9X1sn3DWyfEweOSEqx/hobDgfa9Fef3N2mPHraMOuw8GjEHDdc/yASW2b+Dku9YiMPBmusfsXFMmUcvqLnvNIserzvBK4/coFQHuTkm4Ny/r3as589FdygN2Xm897jkp9LX+SUxKxfHiP4GUCD097+WZAAAAAElFTkSuQmCC"/></td>
-        <td><img class='delete' data-id="${doc.id}" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAAXNSR0IArs4c6QAAAS9JREFUSEvtltFtwkAMhm0XEFM0YQNAfW+YpO0khU3CJMB7FbpBwhYoqHZ1NInCiRO+gJQ+XF5j+zv/9vmM0NOHPXHBC3wYzZeug6JA8XzKUm0ianAF/bwReBWVmfNwbV8VOB+/JMS8UWajgl+APQHKc/yZMdFicvza1k7/BTyNiendKxWlMROnk+N3cTXjdox8PI0BBrEyrtOsLa+quYrhbIOIyT1gEdnGp/3iWgxnVwcwAKyMZCLyapfASIqIu0rSZsg8ROqozM5lcUywZmgcRnOpaxrAna5TkNoaCqG5zoKE69TpOpkNwjgS8xsA2G92ykTr6n+zIj1E6i7PY29gAEijMvvweo/NBkJMeZdMax97wVPV2BgZ+NMPJYLgvQLZO5adgGqvvidrl29v4F9yCi8u5DsT8AAAAABJRU5ErkJggg=="/></td>
-       `;
-      
-       return fila;
-}
-
-tablaCuerpo.innerHTML = '';
-
-bebidasSnapshot.forEach(doc => {
-    const fila = crearFilaTabla(doc);
-    tablaCuerpo.appendChild(fila);
-});
-
-tablaCuerpo.addEventListener('click', async e => {
-    if (e.target.classList.contains('edit')) {
-        
-        const productName = e.target.parentNode.parentNode.querySelector('td:first-child').textContent;
-
-        
-        const bebidasRef = collection(db, "inventario");
-        const querySnapshot = await getDocs(query(bebidasRef, where("codigo", "==", productName)));
-
-        if (!querySnapshot.empty) {
-            querySnapshot.forEach(doc => {
-                const productData = doc.data();
-                const productId = doc.id;
-                console.log(productId)
-               
-                mostrarFormularioEdicion(productData)
-            });
-        }
-    }else if(e.target.classList.contains('delete')){
-    
-        const productId = e.target.getAttribute('data-id');
-        const docRef = doc(db, 'inventario', productId);
-
-        try {
-            await deleteDoc(docRef);
-            alert("¡Producto eliminado exitosamente!");
-            location.reload();
-        } catch (error) {
-            console.error("Error al eliminar el producto:", error);
-            alert("Hubo un error al eliminar el producto. Por favor, inténtalo de nuevo.");
-        }
-    }
-});
-
-function mostrarFormularioEdicion(productData) {
-   
-    formularioEdicion.querySelector('#codigoedit').value = productData.codigo;
-    formularioEdicion.querySelector('#productoedit').value = productData.producto;
-    formularioEdicion.querySelector('#descripcionedit').value = productData.descripcion;
-    formularioEdicion.querySelector('#entradaedit').value = productData.entrada;
-    formularioEdicion.querySelector('#salidaedit').value = productData.salida;
-    formularioEdicion.querySelector('#cantidadStockedit').value = productData.cantidadStock;
-
-    formularioEdicion.classList.toggle('active');
-         if (formularioEdicion.classList.contains('active')) {
-            formularioEdicion.style.animation = 'bounce-in 0.5s cubic-bezier(0.25, 0.1, 0.25, 1) forwards';
-       }
-}
-
-
-document.querySelector('#form-edit').addEventListener('submit', async () => {
-    event.preventDefault();
-    
-    const codigo = document.querySelector('#codigoedit').value;;
-
-    const bebidasRef = collection(db, "inventario");
-    const querySnapshot = await getDocs(query(bebidasRef, where("codigo", "==", codigo)));
-    
-    querySnapshot.forEach(async (doc) => {
-        try {
-             await updateDoc(doc.ref, {
-                producto : document.querySelector('#productoedit').value,
-                descripcion : document.querySelector('#descripcionedit').value,
-                entrada : document.querySelector('#entradaedit').value,
-                salida:  document.querySelector('#salidaedit').value,
-                cantidadStock : document.querySelector('#cantidadStockedit').value
-            });
-            alert('¡Producto actualizado exitosamente!');
-            document.getElementById('formulario-edicion').style.display = 'none';
-            location.reload();
-        } catch (error) {
-            console.error('Error al actualizar el producto:', error);
-            alert('Hubo un error al actualizar el producto. Por favor, inténtalo de nuevo.');
-        }
-    });
-});
-
-
-const searchInput = document.getElementById('searchInput');
-
-searchInput.addEventListener('input', async () => {
-    const searchTerm = searchInput.value.trim().toLowerCase();
-    const filteredProducts = [];
-
-    bebidasSnapshot = await getDocs(bebidasRef);
-    bebidasSnapshot.forEach(doc => {
-        const data = doc.data();
-        if (data && data.producto) {
-            const producto = data.producto.toLowerCase();
-            if (producto.includes(searchTerm)) {
-                filteredProducts.push(data);
-            }
-        }
-    });
-
-    actualizarTabla(filteredProducts);
-});
-
-function actualizarTabla(products) {
-    const tablaCuerpo = document.getElementById('tabla-cuerpo');
-    tablaCuerpo.innerHTML = '';
-
-    products.forEach(producto => {
-        const fila = document.createElement('tr');
-        fila.innerHTML = `
-        <td>${producto.codigo}</td>
-        <td>${producto.producto}</td>
-        <td>${producto.descripcion}</td>
-        <td>${producto.entrada}</td>
-        <td>${producto.salida}</td>
-        <td>${producto.cantidadStock}</td>
-        <td><img class='edit' src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAAXNSR0IArs4c6QAAAaxJREFUSEvN1+txgkAQAODdq4R0INiAVhIZJnVE68gQTCXSgGAHUkjmNrPgmuN4eCc46l8XPvbhsSI86YNPcuG14EVWBkrrDQG+I1Culdqd4rCS6iy+ypVrpU4fYd4X28mYUdR0toIrUrgWfJGWGwTKHPEKgX6KZLk14ztwmBZ0DUDIgUCym4SXSfQ2CEfpMSPADQcg0L5IlnGUHrcE+Hm5qI1nZQC/EAxmriCQypDGtVn2Vsbhd3G4ZFiZTximBZdegBY+Vm6eBVR04JhR2OwdAu24L2YVDMQJd4ebweInbLKzeswTLq0AgJu4M8zWZar/8SbNijTG3KOxnttl94L7cBk0ubEr7g0P4HXPfXBnmAOV0isB7LLLwLniXjCPvwlMwb1h+3d3Lz4Z9u25HBazwLfwPmQ2eAjXWuU8lHKmz57x9X1sn3DWyfEweOSEqx/hobDgfa9Fef3N2mPHraMOuw8GjEHDdc/yASW2b+Dku9YiMPBmusfsXFMmUcvqLnvNIserzvBK4/coFQHuTkm4Ny/r3as589FdygN2Xm897jkp9LX+SUxKxfHiP4GUCD097+WZAAAAAElFTkSuQmCC"/></td>
-        <td><img class='delete' data-id="${doc.id}" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAAXNSR0IArs4c6QAAAS9JREFUSEvtltFtwkAMhm0XEFM0YQNAfW+YpO0khU3CJMB7FbpBwhYoqHZ1NInCiRO+gJQ+XF5j+zv/9vmM0NOHPXHBC3wYzZeug6JA8XzKUm0ianAF/bwReBWVmfNwbV8VOB+/JMS8UWajgl+APQHKc/yZMdFicvza1k7/BTyNiendKxWlMROnk+N3cTXjdox8PI0BBrEyrtOsLa+quYrhbIOIyT1gEdnGp/3iWgxnVwcwAKyMZCLyapfASIqIu0rSZsg8ROqozM5lcUywZmgcRnOpaxrAna5TkNoaCqG5zoKE69TpOpkNwjgS8xsA2G92ykTr6n+zIj1E6i7PY29gAEijMvvweo/NBkJMeZdMax97wVPV2BgZ+NMPJYLgvQLZO5adgGqvvidrl29v4F9yCi8u5DsT8AAAAABJRU5ErkJggg=="/></td>
-       `;
-        tablaCuerpo.appendChild(fila);
-    });
-}
-
-
-document.querySelector('.none').addEventListener('click', ()=>{formularioEdicion.classList.remove('active');});
-
-});
-</script>
+<script type="module" src="/js/script-inventario.js"></script>
 <%-include('partials/scripts-sidebar.ejs')%>
 </html>

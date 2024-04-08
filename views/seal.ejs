@@ -4,39 +4,55 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cafetería - Registro de Gastos</title>
+    <link rel="stylesheet" href="/css/styles_admin.css">
 </head>
 <body>
     <%-include('partials/menu.ejs')%>
-    <div class="main">
+<div class="main">
         <div class="topbar">
             <div class="toggle">
                 <ion-icon name="menu-outline"></ion-icon>
             </div>
     
+            <div class="font-weight">
+                <h2>Registro de Gastos de la Cafetería</h2>
+                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAAXNSR0IArs4c6QAAASdJREFUSEvtllEOgyAMhovZPWQ3UbN7DG/W3WNRbzLcORZZwGlQJyJ288W+GvvRUv7+DHYKthMXZsEi4wIA+OaDRVDhXVbjPBOwSDiHSJUk0J6mEItnbsOn4DQugUGyudJhAolFfXaDs1gRQ9t0EUvtlg8qFheeQGPaTB9EYAnAbu3p1NVrHkjACios61Rjhe9MHGB7ipzDFTHTWhMvkFhJaVqtB9KOueEMbTUWtZe8irnnGArW79AurHuTRulOlrRSVzxo5zHVPtoefMcj0d9HuUKUnKji9egD7JBMa/Wt7+zkjwawk1n9zWEEWI6FRALk1xRDcGv0Hp8FPzFolIf4l9lzey6z5n5ibxfMXtfKFt5b3O2mXid2DRflHS7l8lruS0lCvr8BcIHtHzIwXtkAAAAASUVORK5CYII="/>
+             </div>
+
             <div class="user">
                 <img src="/img/image.png" alt="">
             </div>
         </div>
 
-    <h2>Registro de Gastos de la Cafetería</h2>
-    <div>
-        <label for="budget">Presupuesto:</label>
-        <input type="number" name="budget" id="budget">
-    </div>
-    <h3>Agregar Nuevo Gasto</h3>
+    <div class="content">
     <form id="form-action"">
+    <div>
         <label for="fecha">Fecha:</label>
         <input type="date" id="fecha" name="fecha" required>
+    </div>
+    <div>
         <label for="codigo">Codigo:</label>
-        <input type="text" id="codigo" name="codigo" required>
+        <input type="text" id="codigo" name="codigo" required placeholder="Codigo de Barras">
+    </div>
+    <div>
         <label for="descripcion">Descripción:</label>
-        <input type="text" id="descripcion" name="descripcion" required>
+        <input type="text" id="descripcion" name="descripcion" required placeholder="Descripcion">
+    </div>
+    <div>
         <label for="cantidad">Cantidad:</label>
-        <input type="number" id="cantidad" name="cantidad" required>
+        <input type="number" id="cantidad" name="cantidad" required placeholder="Cantidad">
+    </div>
+    <div>
         <label for="monto">Monto:</label>
-        <input type="number" id="monto" name="monto" step="0.01" required>
+        <input type="number" id="monto" name="monto" step="0.01" required placeholder="Costo">
+    </div>
+    <div>
         <button type="submit">Agregar Gasto</button>
+    </div>
     </form>
+    </div>
+
+
 
     <div class="search">
         <h3>Busqueda</h3>
@@ -44,134 +60,30 @@
             <input id="searchInput" type="date" placeholder="Busqueda por fecha">
             <ion-icon name="search-outline"></ion-icon>
         </label>
+        <button class="all">Factura Completa</button>
     </div>
 
-    <table>
+    <div class="table-container">
+    <table id="product-table">
         <thead>
             <tr>
                 <th>Fecha</th>
                 <th>Codigo</th>
                 <th>Descripción</th>
                 <th>Cantidad</th>
-                <th>Monto</th>
+                <th>$ Monto</th>
+                <th>Eliminar</th>
             </tr>
         </thead>
-        <tbody id="table-page">
-         </tbody>
+        <tbody id="table-page"></tbody>
     </table>
-
-    <div>
-        <span>Total Gastos:</span>
-        <p></p> 
-        <span>Presupuesto Restante:</span>
-        <p></p>
     </div>
-
+    <div class="style-bills">
+        <span>Gasto Total del Dia:</span>
+        <p id="all-outlay"></p> 
+    </div>
 </div>
 </body>
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-app.js";
-import { getFirestore, collection, addDoc, getDocs , deleteDoc, doc, setDoc, getDoc, query, where, updateDoc  } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-storage.js";
-
-const firebaseConfig = {
-    apiKey: "AIzaSyDVrFMPzj5uCYazmPfaMGUGLXlKbVNjT2U",
-    authDomain: "grandgusto-bf307.firebaseapp.com",
-    projectId: "grandgusto-bf307",
-    storageBucket: "grandgusto-bf307.appspot.com",
-    messagingSenderId: "894104978355",
-    appId: "1:894104978355:web:b1ea9ff6fa551f627d41c6"
-  };
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
-const form_action = document.querySelector('#form-action');
-const table_body = document.querySelector('#table-page');
-const bebidasRef = collection(db, "gastos");
-const searchInput = document.getElementById('searchInput');
-const formularioEdicion = document.querySelector('#formulario-edicion');
-
-
-form_action.addEventListener('submit', async function(event) {
-    
-    event.preventDefault();
-
-    const fecha = document.getElementById('fecha').value;
-    const codigo = document.getElementById('codigo').value;
-    const descripcion = document.getElementById('descripcion').value;
-    const cantidad = parseInt(document.getElementById('cantidad').value);
-    const monto = document.getElementById('monto').value;
-
-    const bebidasSnapshot = await getDocs(bebidasRef);
-    let productoExistente =false;
-
-    
-if (!productoExistente) {
-
-const inventarioRef = collection(db, "inventario");
-const querySnapshot = await getDocs(query(inventarioRef, where("codigo", "==", codigo)));
-
-if (!querySnapshot.empty) {
-   
-    const inventarioDoc = querySnapshot.docs[0];
-    const inicial = inventarioDoc.data().entrada;
-    const salida = inventarioDoc.data().salida;
-    const total = inventarioDoc.data().cantidadStock;
-    
-    let inicialC= parseInt(inicial)-salida;
-
-    inicialC=(inicialC < 0 ? 0 : inicialC);
-
-    inicialC=inicialC+cantidad;
-
-    const nuevasalida = Math.max(salida - cantidad, 0);
-    
-    await updateDoc(inventarioDoc.ref, { entrada: inicialC, salida: nuevasalida, cantidadStock:inicialC});   
-} 
-
-
-const productData = {
-        fecha: fecha,
-        codigo: codigo,
-        descripcion: descripcion,
-        cantidad: cantidad,
-        monto: monto,
-    };
-
-    await addDoc(collection(db, "gastos"), productData);
-
-    alert("¡Producto registrado exitosamente!");
-  
-    document.getElementById('form-action').reset();
-    mostrarDatosEnTabla();
-}
-});
-
-async function mostrarDatosEnTabla() {
-    table_body.innerHTML = '';
-    try {
-        const bebidasRef = collection(db, "gastos");
-        const querySnapshot = await getDocs(bebidasRef);
-
-        querySnapshot.forEach(doc => {
-            const data = doc.data();
-            const fila = document.createElement('tr');
-            fila.innerHTML = `
-                <td>${data.fecha}</td>
-                <td>${data.codigo}</td>
-                <td>${data.descripcion}</td>
-                <td>${data.cantidad}</td>
-                <td>${data.monto}</td>
-                <td><img class='delete' data-id="${doc.id}" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAAXNSR0IArs4c6QAAAS9JREFUSEvtltFtwkAMhm0XEFM0YQNAfW+YpO0khU3CJMB7FbpBwhYoqHZ1NInCiRO+gJQ+XF5j+zv/9vmM0NOHPXHBC3wYzZeug6JA8XzKUm0ianAF/bwReBWVmfNwbV8VOB+/JMS8UWajgl+APQHKc/yZMdFicvza1k7/BTyNiendKxWlMROnk+N3cTXjdox8PI0BBrEyrtOsLa+quYrhbIOIyT1gEdnGp/3iWgxnVwcwAKyMZCLyapfASIqIu0rSZsg8ROqozM5lcUywZmgcRnOpaxrAna5TkNoaCqG5zoKE69TpOpkNwjgS8xsA2G92ykTr6n+zIj1E6i7PY29gAEijMvvweo/NBkJMeZdMax97wVPV2BgZ+NMPJYLgvQLZO5adgGqvvidrl29v4F9yCi8u5DsT8AAAAABJRU5ErkJggg=="/></td>
-               `;
-            table_body.appendChild(fila);
-        });
-    } catch (error) {
-        console.error("Error al obtener datos:", error);
-    }
-}
-mostrarDatosEnTabla();
-</script>
+<script type="module" src="/js/script-seal.js"></script>
 <%-include('partials/scripts-sidebar.ejs')%>
 </html>
