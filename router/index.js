@@ -24,6 +24,7 @@ router.get('/', async (req, res) => {
     res.render('login', {errorMessage});  // Renderiza la vista del formulario de inicio de sesión
 });
 
+
 router.get('/register', async (req, res) => {
         let errorMessage='';
         res.render('register', {errorMessage});  // Renderiza la vista del formulario de inicio de sesión
@@ -51,7 +52,7 @@ router.post('/register', async (req, res) => {
         // Guarda la información del usuario en Firestore
         await addDoc(collection(db, 'usuarios'), userData);
 
-        res.redirect('/login-sucess');
+        res.redirect('/login-success');
     } else {
         throw new Error('Las contraseñas no coinciden. Por favor, inténtalo de nuevo.');
     }
@@ -109,10 +110,6 @@ router.post('/login', async (req, res) => {
         
 });
 
-router.get('/login-success', (req, res) => {
-    res.render('login-success');
-});
-
 router.get('/forgot-password', (req, res) => {
     let errorMessage, Message;
     res.render('forgot-password', {errorMessage, Message});
@@ -139,6 +136,8 @@ router.post('/forgot-password', async (req, res) => {
         res.render('forgot-password', { errorMessage, Message : null}); }
 });
 
+
+router.get('/login-success', (req, res) => {res.render('login-success');});
 
 router.get('/index', (req, res) => {res.render('index')});
 
