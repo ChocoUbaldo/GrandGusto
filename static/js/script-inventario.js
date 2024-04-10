@@ -73,11 +73,9 @@ formaction.addEventListener('submit', async (event) => {
 
        
         try {
-            await addDoc(collection(db, "inventario"), productData);
-            alert("¡Producto registrado exitosamente!");
-           
-            document.getElementById('subirinv').reset();
-            location.reload();
+           await addDoc(collection(db, "inventario"), productData);
+           formaction.reset();
+           showalert();
         } catch (error) {
             console.error("Error al agregar producto a Firestore:", error);
             alert("Hubo un error al agregar el producto. Por favor, inténtalo de nuevo.");
@@ -140,8 +138,7 @@ tablaCuerpo.addEventListener('click', async e => {
 
         try {
             await deleteDoc(docRef);
-            alert("¡Producto eliminado exitosamente!");
-            location.reload();
+            showalertdelete();
         } catch (error) {
             console.error("Error al eliminar el producto:", error);
             alert("Hubo un error al eliminar el producto. Por favor, inténtalo de nuevo.");
@@ -182,9 +179,7 @@ document.querySelector('#form-edit').addEventListener('submit', async () => {
                 salida:  document.querySelector('#salidaedit').value,
                 cantidadStock : document.querySelector('#cantidadStockedit').value
             });
-            alert('¡Producto actualizado exitosamente!');
-            document.getElementById('formulario-edicion').style.display = 'none';
-            location.reload();
+            showalertupdate();
         } catch (error) {
             console.error('Error al actualizar el producto:', error);
             alert('Hubo un error al actualizar el producto. Por favor, inténtalo de nuevo.');
@@ -234,5 +229,50 @@ function actualizarTabla(products) {
 
 
 document.querySelector('.none').addEventListener('click', ()=>{formularioEdicion.classList.remove('active');});
+
+
+function showalert() {
+    Swal.fire({
+      icon: 'success',
+      title: '¡Éxito!',
+      text: 'Producto registrado con éxito.',
+      confirmButtonColor: '#60421f',
+      confirmButtonText: 'OK'
+    }).then((result)=>{
+        if(result.isConfirmed){
+            location.reload();
+        }
+    })
+}
+
+function showalertdelete() {
+    Swal.fire({
+      icon: 'success',
+      title: '¡Éxito!',
+      text: 'Producto eliminado con éxito.',
+      confirmButtonColor: '#60421f',
+      confirmButtonText: 'OK'
+    }).then((result)=>{
+        if(result.isConfirmed){
+            location.reload();
+        }
+    })
+  }
+
+function showalertupdate() {
+    Swal.fire({
+      icon: 'success',
+      title: '¡Éxito!',
+      text: 'Producto actualizado con éxito.',
+      confirmButtonColor: '#60421f',
+      confirmButtonText: 'OK'   
+    }).then((result)=>{
+        if(result.isConfirmed){
+            location.reload();
+            document.getElementById('formulario-edicion').style.display = 'none';
+        }
+    })
+}
+
 
 });

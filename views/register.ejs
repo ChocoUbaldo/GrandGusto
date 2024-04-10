@@ -6,6 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/login.css">
     <%-include('partials/sweetalert2.ejs')%>
+    <style>    
+        .swal2-popup.custom-swal-bg {
+                background-color: rgba(255,234,193,1); /* Cambia este color al que desees */
+                border-color: #5d5d5d; /* Cambia este color al que desees para el borde */
+                color: #5b5b5b; /* Cambia este color al que desees para el texto */
+        }
+        a{
+            color: rgb(237, 110, 110);
+        }
+    </style>
     <script>
         function showAlert(errorMessage) {
             if (errorMessage) {
@@ -13,7 +23,11 @@
                     icon: "error",
                     title: "Oops...",
                     text: errorMessage,
-                    footer: '<a href="#">Necesitas ayuda con el problema?</a>'
+                    footer: '<a href="#">Necesitas ayuda con el problema?</a>',
+                    customClass: {
+                    popup: 'custom-swal-bg' // Aplica la clase personalizada para el fondo de la alerta
+                },
+                confirmButtonColor: '#905835'
             });
         }
         }
@@ -37,7 +51,7 @@
                     <div class="social-icons">
                         <a id="loginicon" href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
                         <a id="login-faceook" href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
-                        <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
+                        <a id="login-github" href="#" class="icon"><i class="fa-brands fa-github"></i></a>
                         <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
                     </div>
                     <span>o usa tu email para registrarte</span>
@@ -45,6 +59,7 @@
                     <input id="email" type="email" name="email" placeholder="Email" required onkeypress="preventSpaces(event)">
                     <input id="password" type="password" name="password" placeholder="Contraseña" required onkeypress="preventSpaces(event)">
                     <input id="password2" type="password" name="password2" placeholder="Confirmar Contraseña" required onkeypress="preventSpaces(event)">
+                    <div class="already-have-account">Ya tienes Cuenta? <a href="/login">Iniciar Sesion</a></div>
                     <button id="regis" type="submit">Regístrate</button>
                     <% if(errorMessage) { %>
                         <script>

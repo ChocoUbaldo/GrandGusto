@@ -6,6 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/login.css">
     <%-include('partials/sweetalert2.ejs')%>
+    <style>    
+        .swal2-popup.custom-swal-bg {
+                background-color: rgba(255,234,193,1); /* Cambia este color al que desees */
+                border-color: #5d5d5d; /* Cambia este color al que desees para el borde */
+                color: #5b5b5b; /* Cambia este color al que desees para el texto */
+        }
+        a{
+            color: rgb(237, 110, 110);
+        }
+    </style>
     <script defer>
     function showAlert(errorMessage) {
         if (errorMessage) {
@@ -13,10 +23,14 @@
                 icon: "error",
                 title: "Oops...",
                 text: errorMessage,
-                footer: '<a href="#">Necesitas ayuda con el problema?</a>'});
+                footer: '<a href="#">Necesitas ayuda con el problema?</a>',
+                customClass: {
+                    popup: 'custom-swal-bg' // Aplica la clase personalizada para el fondo de la alerta
+                },
+                confirmButtonColor: '#905835'
+            });
     }
     }
-    
 </script>
 <title>GrandGusto Login</title>
 </head>

@@ -7,7 +7,14 @@
     height: 100%;
     overflow: hidden;
     }
-
+    .swal2-popup.custom-swal-bg {
+                background-color: rgba(255,234,193,1); /* Cambia este color al que desees */
+                border-color: #5d5d5d; /* Cambia este color al que desees para el borde */
+                color: #5b5b5b; /* Cambia este color al que desees para el texto */
+        }
+        a{
+            color: rgb(237, 110, 110);
+        }
 </style>
 <body>
     <script>
@@ -18,6 +25,10 @@
                 title: 'Redirigiendo al administrador',
                 showConfirmButton: false,
                 timer: 3000,
+                customClass: {
+                    popup: 'custom-swal-bg' // Aplica la clase personalizada para el fondo de la alerta
+                },
+                confirmButtonColor: '#905835',
                 didOpen: () => {
                 Swal.showLoading();
                 const timer = Swal.getPopup().querySelector("b");

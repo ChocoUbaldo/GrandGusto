@@ -15,8 +15,8 @@
   --black2: #999;
 }
 
-body {
-  min-height: 100vh;
+body,html {
+  height: 100%;
   overflow-x: hidden;
   color: var(--coffe);
 }
@@ -312,7 +312,7 @@ button:hover {
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
+  overflow: auto;
 }
 
 #product-table {
@@ -361,15 +361,63 @@ button:hover {
 
 @media screen and (max-width: 600px) {
   #product-table {
-      font-size: 12px;
+      font-size: 16px;
   }
-
+  
   #product-table th, #product-table td {
       padding: 8px;
   }
 
   #product-table td img {
-      width: 40px;
-      height: 40px;
+      width: 30px;
+      height: 30px;
+  }
+  
+}
+
+
+
+@media screen and ( max-width: 500px ) {
+
+  .navigation.active{
+    width: 0px;
+  }  
+  .navigation{
+    border-left: 0px;
+  }
+  .content,
+  .search,
+  .topbar .font-weight,
+  .user, .table-container{
+    opacity: 0;
+  }
+
+  .main.active > div, .main.active .topbar > div{
+    opacity: 1;
+  }
+
+  .main.active{
+    width: 100%;
+    left: 10px;
+  }
+  .content, .table-container{
+    width: 100%;
+  }
+
+  #formulario-edicion{
+    width: 350px;
+  }
+
+  .font-weight{
+    height: 30px;
+    & h2{
+      font-size: 23px;
+      text-align: center;
+    }
+  }
+
+  .search label, .search, .search label input{
+    margin-left: 0px;
+    width: 100%;
   }
 }

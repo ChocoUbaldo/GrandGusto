@@ -69,7 +69,7 @@ const productData = {
 
     await addDoc(collection(db, "gastos"), productData);
 
-    alert("¡Producto registrado exitosamente!");
+    showalert();
   
     document.getElementById('form-action').reset();
     mostrarDatosEnTabla();
@@ -144,8 +144,7 @@ table_body.addEventListener('click', async e => {
 
         try {
             await deleteDoc(docRef);
-            alert("¡Producto eliminado exitosamente!");
-            location.reload();
+            showalertdelete();
         } catch (error) {
             console.error("Error al eliminar el producto:", error);
             alert("Hubo un error al eliminar el producto. Por favor, inténtalo de nuevo.");
@@ -170,3 +169,27 @@ function mostrarTotalGastos() {
 document.querySelector('.all').addEventListener('click', ()=>{location.reload()})
 
 mostrarDatosEnTabla();
+
+function showalert() {
+    Swal.fire({
+      icon: 'success',
+      title: '¡Éxito!',
+      text: 'Producto registrado con éxito.',
+      confirmButtonColor: '#60421f',
+      confirmButtonText: 'OK'
+    });
+}
+
+function showalertdelete() {
+    Swal.fire({
+      icon: 'success',
+      title: '¡Éxito!',
+      text: 'Producto eliminado con éxito.',
+      confirmButtonColor: '#60421f',
+      confirmButtonText: 'OK'
+    }).then((result)=>{
+        if(result.isConfirmed){
+            location.reload();
+        }
+    })
+  }

@@ -110,6 +110,8 @@ body{
     z-index: 1;
 }
 
+
+
 .container.active .sign-up{
     transform: translateX(100%);
     opacity: 1;
@@ -177,6 +179,10 @@ body{
         font-size: 14px;
         box-sizing: border-box;      
     }
+    .container.active .sign-up {
+    transform: translateX(0%);
+    width: 100%;
+    }
     .no-account:hover{
         color:white;
     }
@@ -185,7 +191,18 @@ body{
         box-sizing: border-box;     
         color: #b87326d6; 
         
-    }
+    } 
+    .container.active .toggle-container{
+    opacity: 0;
+    transform: translateX(-150%);
+}
+
+.container form {
+    padding: 0 0px;
+}
+
+
+
 }
 
 

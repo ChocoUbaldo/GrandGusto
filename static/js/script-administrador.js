@@ -62,7 +62,7 @@ if (!productoExistente) {
 
     await addDoc(collection(db, "bebidas"), productData);
 
-    alert("¡Producto registrado exitosamente!");
+    showalert();
     // Limpiar formulario después de enviar
     document.getElementById('form-action').reset();
     mostrarDatosEnTabla();
@@ -157,8 +157,7 @@ table_body.addEventListener('click', async e => {
 
         try {
             await deleteDoc(docRef);
-            alert("¡Producto eliminado exitosamente!");
-            location.reload();
+            showalertdelete();
         } catch (error) {
             console.error("Error al eliminar el producto:", error);
             alert("Hubo un error al eliminar el producto. Por favor, inténtalo de nuevo.");
@@ -202,9 +201,7 @@ document.querySelector('#form-edit').addEventListener('submit', async () => {
                 precio_venta: precioventa,
                 costo: costo,
             });
-            alert('¡Producto actualizado exitosamente!');
-            document.getElementById('formulario-edicion').style.display = 'none';
-            location.reload();
+            showalertupdate();
         } catch (error) {
             console.error('Error al actualizar el producto:', error);
             alert('Hubo un error al actualizar el producto. Por favor, inténtalo de nuevo.');
@@ -217,3 +214,42 @@ document.querySelector('.none').addEventListener('click', ()=>{formularioEdicion
 
 document.addEventListener("DOMContentLoaded", mostrarDatosEnTabla);
 
+
+function showalert() {
+    Swal.fire({
+      icon: 'success',
+      title: '¡Éxito!',
+      text: 'Producto registrado con éxito.',
+      confirmButtonColor: '#60421f',
+      confirmButtonText: 'OK'
+    });
+}
+
+function showalertdelete() {
+    Swal.fire({
+      icon: 'success',
+      title: '¡Éxito!',
+      text: 'Producto eliminado con éxito.',
+      confirmButtonColor: '#60421f',
+      confirmButtonText: 'OK'
+    }).then((result)=>{
+        if(result.isConfirmed){
+            location.reload();
+        }
+    })
+  }
+
+function showalertupdate() {
+    Swal.fire({
+      icon: 'success',
+      title: '¡Éxito!',
+      text: 'Producto actualizado con éxito.',
+      confirmButtonColor: '#60421f',
+      confirmButtonText: 'OK'   
+    }).then((result)=>{
+        if(result.isConfirmed){
+            location.reload();
+            document.getElementById('formulario-edicion').style.display = 'none';
+        }
+    })
+}
